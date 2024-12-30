@@ -1,8 +1,12 @@
 from dash import dcc, html
 from dash.dependencies import Input, Output
-from yf_data import get_sp500_constituents
+from data_api import get_sp500_constituents
+import dash_table
+from datatable import average_table_layout
 
 SPY_CONSTITUENTS = get_sp500_constituents()
+
+
 
 def app_layout() :
     
@@ -11,18 +15,26 @@ def app_layout() :
                     html.H1('S&P 500 Constituents'),
                     style={'width':'100%'}                   
                 ),
-                dcc.Dropdown(
-                    id='spx-constituents',
-                    options=[
-                        {'label': 'Option 1', 'value': '1'},
-                        {'label': 'Option 2', 'value': '2'},
-                        {'label': 'Option 3', 'value': '3'}
-                    ],
-                    value='1',
-                    style = {'width':'300px'}# Default value
-                ),
-                html.Div(id='output-container')
-            ])
+                html.Div(
+                    children = [
+                        dcc.Dropdown(
+                            id='spx-constituents-dd',
+                            options=SPY_CONSTITUENTS['Security'],
+                            value='1',
+                            style = {
+                                'display':'inline-block',
+                                'width':'300px',
+                                'maxHeight': '1000px',
+                                'marginRight':'100px'
+                            }
+                        ),
+                        html.Div([],id='selected-ticker',style={'display':'inline-block','width':'300px'})
+                    ]
+            ),
+                html.Div(id='output-container'),
+                average_table_layout(),
+                dcc.Store(id="ticker-eod-data"),
+        ])
 
     return layout
             
