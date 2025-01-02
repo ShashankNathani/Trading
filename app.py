@@ -6,7 +6,8 @@ import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 # Initialize the Dash app
 _dash_renderer._set_react_version("18.2.0")
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP,dmc.styles.ALL])
+plotly_js = "https://cdn.plot.ly/plotly-latest.min.js"
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP,dbc.icons.BOOTSTRAP,dmc.styles.ALL,dmc.styles.DATES,plotly_js])
 app.layout = dmc.MantineProvider(app_layout())
 
 app_callbacks(app)

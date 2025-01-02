@@ -1,8 +1,8 @@
 from dash import dcc, html
 from dash.dependencies import Input, Output
 from data_api import get_sp500_constituents
-import dash_table
 from datatable import average_table_layout
+import dash_bootstrap_components as dbc
 
 SPY_CONSTITUENTS = get_sp500_constituents()
 
@@ -20,7 +20,6 @@ def app_layout() :
                         dcc.Dropdown(
                             id='spx-constituents-dd',
                             options=SPY_CONSTITUENTS['Security'],
-                            value='1',
                             style = {
                                 'display':'inline-block',
                                 'width':'300px',
@@ -34,6 +33,7 @@ def app_layout() :
                 html.Div(id='output-container'),
                 average_table_layout(),
                 dcc.Store(id="ticker-eod-data"),
+                html.Div(dcc.Graph('dummy-to-let-plotlyjs-work'),style={'display':'none'})
         ])
 
     return layout

@@ -22,10 +22,12 @@ def app_callbacks(app) :
     app.clientside_callback(
         """
         function(ticker) {
-            return window.dash_clientside.clients.get_api_data(ticker);
+            return window.dash_clientside.data_utils.get_api_data(ticker);
         }
         """,
         Output('ticker-eod-data', 'data'),
         Input('selected-ticker', 'children'),
     )
+    
+
     
