@@ -6,9 +6,11 @@ import dash_bootstrap_components as dbc
 
 SPY_CONSTITUENTS = get_sp500_constituents()
 
+def options_layout() :
+    return []
 
 
-def app_layout() :
+def stock_layout() :
     
     layout = html.Div([
                 html.Div(
@@ -36,6 +38,21 @@ def app_layout() :
                 html.Div(dcc.Graph('dummy-to-let-plotlyjs-work'),style={'display':'none'})
         ])
 
+    return layout
+
+def app_layout():
+    layout = html.Div([
+        dbc.Tabs(
+            [
+                dbc.Tab(label="Stocks", tab_id="stocks"),
+                dbc.Tab(label="Options", tab_id="options"),
+            ],
+            id="tabs",
+            active_tab="stocks",
+        ),
+        html.Div(id="tab-content",children=stock_layout()),
+    ])
+    
     return layout
             
     
