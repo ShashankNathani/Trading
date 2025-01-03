@@ -4,7 +4,13 @@ from data_api import get_sp500_constituents
 from datatable import average_table_layout
 import dash_bootstrap_components as dbc
 
-spc = get_sp500_constituents()
+def store_sp500_constituents() :
+    spxc = get_sp500_constituents()
+    store = {}
+    for i in range(len(spxc['Symbol'])):
+        store[spxc['Security'][i]] = spxc['Symbol'][i]
+
+    return dcc.Store(id='sp500-data',data=store)
 
 def options_layout() :
     return []
@@ -13,36 +19,9 @@ def options_layout() :
 def stock_layout() :
     
     layout = html.Div([
-                html.Div(
-                    children = [
-                        html.Div(style={'widht':'100%','height':'25px'}),
-                        dcc.Dropdown(
-                            id='stock-type-dd',
-                            options=['S&P Companies','Custom Tickers'],
-                            style={
-                                'display':'inline-block',
-                                'width':'300px',
-                            },
-                            value='S&P Companies'
-                        ),
-                        html.Div(
-                            id='ticker-input-div',
-                            style = {
-                                'display':'inline-block',
-                                'width':'300px',
-                                'maxHeight': '1000px',
-                                'marginRight':'20px'
-                            },
-                            children = [dcc.Dropdown(id='ticker-input',options=spc['Security'])]
-                        ),
-                        html.Div([],id='selected-ticker',style={'display':'none'}),
-                        dbc.Button('Submit', id='submit-ticker',style={'display':'none'},color="success")                        
-                    ]
-                ),
-
-                html.Div(id='output-container'),
+                html.Div(style={'width':'100%','height':'25px'}),
+                store_sp500_constituents(),
                 average_table_layout(),
-                dcc.Store(id="ticker-eod-data"),
                 html.Div(dcc.Graph('dummy-to-let-plotlyjs-work'),style={'display':'none'})
             ])
 
