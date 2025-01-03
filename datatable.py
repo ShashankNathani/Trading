@@ -140,7 +140,7 @@ def average_table_callbacks(app) :
             console.log(elem0);
             
             let moving_window_returns = window.dash_clientside.data_utils.get_adjusted_close_returns(api_data,start_date,end_date,window_size);
-            return window.dash_clientside.chart_utils.createProbabilityDistributionChart(moving_window_returns,elem_id);
+            return window.dash_clientside.chart_utils.createCumulativeDistributionChart(moving_window_returns,elem_id);
         }
         """,
         Output({'type':'dist-chart','row':MATCH}, 'figure'),
