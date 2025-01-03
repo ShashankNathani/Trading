@@ -107,11 +107,19 @@ def average_table_callbacks(app) :
             
             let moving_window_returns = window.dash_clientside.data_utils.get_adjusted_close_returns(api_data,start_date,end_date,window_size);
             let avg_returns = 100*window.dash_clientside.data_utils.average(moving_window_returns);
+            let style;
+            
+            if(avg_returns < 0){
+                style = {'color':'red'};
+            }else{
+                style = {'color':'green'};
+            }
                         
-            return `${avg_returns.toFixed(2)}%`;
+            return [`${avg_returns.toFixed(2)}%`,style];
         }
     """,   
     Output({'type':'avg-table','row':MATCH,'col':5}, "children"),
+    Output({'type':'avg-table','row':MATCH,'col':5}, "style"),
     Input({'type':'ticker-eod-data','row':MATCH},'data'),
     Input({'type':'avg-table','row':MATCH,'col':2}, "value"),
     Input({'type':'avg-table','row':MATCH,'col':3}, "value"),
